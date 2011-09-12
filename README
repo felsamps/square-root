@@ -1,0 +1,16 @@
+SQUARE ROOT DESIGN SPACE EXPLORATION
+
+Solutions to be Designed:
+
+S0 - Purely behavorial VHDL implementation (bordeline solution) *
+S1 - FSMD (highly possible parallelism using as HW resources as necessary *
+S2 - Low Cost Solution: using one adder operator *
+S3 - Latch-based solution: using one adder operator and clock gating *
+S4 - One-bit-adder solution: using shift registers
+S5 - Hash memory implementation
+S6 - 4 one-bit-adder operators (like S4)
+S7 - Bit level parallelism (S6 as basis and using a pipeline scheme) *
+
+*these solutions will certainly be implemented
+
+Designed Solutions:
