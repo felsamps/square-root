@@ -1,0 +1,13 @@
+db
+incremental_db
+*.bak
+*.rpt
+*.done
+*.rpt
+*.smsg
+*.summary
+*.pin
+*.pof
+*.qpf
+*.sof
+*.qsf
