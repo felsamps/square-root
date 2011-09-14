@@ -10,7 +10,8 @@ ENTITY shift_register is
 		en, load_shift : IN  STD_LOGIC;
 		sd : IN  STD_LOGIC;
 		d : IN  STD_LOGIC_VECTOR (n-1 DOWNTO 0);
-		sq : OUT STD_LOGIC		
+		sq : OUT STD_LOGIC;
+		q : OUT STD_LOGIC_VECTOR(n-1 DOWNTO 0)
 	);
 END shift_register;
 
@@ -21,6 +22,7 @@ ARCHITECTURE Behavioral OF shift_register IS
 BEGIN
 
 	sq <= reg(0);
+	q <= reg;
 	
 	--			  MODUS OPERANDI 				--
 	-- EN - LOAD_SHIFT - OPERANDI 		--
@@ -28,7 +30,7 @@ BEGIN
 	-- 1  - 0  			 - parallel load	--
 	-- 1  - 1  			 - shift data		--
 
-	PROCESS(clk, reset)
+	PROCESS(clk)
 	BEGIN
 		
 		IF clk'EVENT and clk='1' THEN
