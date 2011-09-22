@@ -11,7 +11,10 @@ Solutions to be Designed:
 	S6 - 4 one-bit-adder operators (like S4)
 *	S7 - Bit level parallelism (S6 as basis and using a pipeline scheme) 
 *	S8 - Fully combinational
+* S9 - SW Pipeline
+	S10 - Optimized Hash Memory Implementation
+	S11 - Linear Search Multiplier Solution
+	S12 - Binary Search Multiplier Solution
+*	S13 - Dynamic Programming Multiplier Solution
 
 *these solutions will certainly be implemented
-
-Designed Solutions:
