@@ -43,10 +43,9 @@ BEGIN
 			IF reset = '1' THEN
 				r <= conv_std_logic_vector(1, n);
 				d <= conv_std_logic_vector(2, n);
-				s <= conv_std_logic_vector(2, n);
+				s <= conv_std_logic_vector(4, n);
 				diff <= (OTHERS=>'0');
 				i <= (OTHERS=>'0');
-				output <= (OTHERS=>'0');
 			ELSE					
 				IF load_r = '1' THEN
 					r <= op_out;

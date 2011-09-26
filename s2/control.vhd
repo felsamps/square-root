@@ -16,7 +16,7 @@ END control;
 
 ARCHITECTURE Behavioral OF control IS
 
-	TYPE state IS (rst, s0, fake, s1, s2, s3, s4, s5, s6);
+	TYPE state IS (rst, s0, s1, s2, s3, s4, s5, s6, s7, s8);
 	SIGNAL c_state, n_state : state;
 	
 BEGIN
@@ -30,7 +30,7 @@ BEGIN
 		END IF;			
 	END PROCESS;
 	
-	PROCESS(c_state)
+	PROCESS(c_state, start)
 	BEGIN
 		CASE c_state IS
 			WHEN rst =>
@@ -46,18 +46,10 @@ BEGIN
 				rst_d <= '1';
 				
 				n_state <= s0;
-			WHEN s0 =>
-				load_i <= '1';
-				rst_d <= '0';
 				
-				IF start = '1' THEN
-					n_state <= s1;
-				ELSE
-					n_state <= fake;
-				END IF;
-			
-			WHEN fake =>  --TODO fix this work around
-				load_i <= '1';
+			WHEN s0 =>
+				
+				rst_d <= '1';
 				
 				IF start = '1' THEN
 					n_state <= s1;
@@ -66,53 +58,72 @@ BEGIN
 				END IF;
 				
 			WHEN s1 =>
+			  load_i <= '1';
+			  
+				rst_d <= '0';
+				
+				n_state <= s2;
+
+				
+			WHEN s2 =>
+			  load_i <= '0';
+			 	IF t = '0' THEN
+					n_state <= s3;
+				ELSE
+					n_state <= s8;
+				END IF;
+				
+			WHEN s3 =>
 				load_i <= '0';
 				load_r <= '1';
 				done <= '0';
+        load_out <= '1';
+        
 				sel_mux0 <= "00"; --r
 				sel_mux1 <= "00"; --1
+				
+				n_state <= s4;
 
-				IF t = '1' THEN
-					n_state <= s2;
-				ELSE
-					n_state <= s5;
-				END IF;
+				
 			
-			WHEN s2 =>
+			WHEN s4 =>
 				load_r <= '0';
 				load_d <= '1';
 				sel_mux0 <= "01"; --d
-				sel_mux1 <= "01"; --1
-				
-				n_state <= s3;
-				
-			WHEN s3 =>
-				load_d <= '0';
-				load_s <= '1';
-				sel_mux0 <= "01"; --d
-				sel_mux1 <= "10"; --s
-				
-				n_state <= s4;
-				
-			WHEN s4 =>
-				load_s <= '0';
-				load_t <= '1';
-				op <= '1';
-				
-				sel_mux0 <= "10"; --i
-				sel_mux1 <= "10"; --s
+				sel_mux1 <= "01"; --2
 				
 				n_state <= s5;
 				
 			WHEN s5 =>
+				load_d <= '0';
+				load_s <= '1';
+				
+				sel_mux0 <= "01"; --d
+				sel_mux1 <= "10"; --s
+				
+				n_state <= s6;
+				
+			WHEN s6 =>
+				load_s <= '0';
+				op <= '1';
+				load_t <= '1';
+        				
+				sel_mux0 <= "10"; --i
+				sel_mux1 <= "10"; --s
+				
+				n_state <= s7;
+				
+			WHEN s7 =>
 				load_t <= '0';
 				op <= '0';
 				
-				n_state <= s1;
+				n_state <= s2;
 				
-			WHEN s6 =>
+			WHEN s8 =>
 				done <= '1';
 				rst_d <= '1';
+				load_out <= '0';
+				
 				
 				n_state <= s0;
 				

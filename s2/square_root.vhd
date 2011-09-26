@@ -43,39 +43,39 @@ begin
 
 	DATAPATH_0: datapath GENERIC MAP(n) 
 		PORT MAP(
-			clk <= clk,
-			reset <= rst_d,
-			load_i <= load_i,
-			load_out <= load_out,
-			load_r <= load_r,
-			load_s <= load_s,
-			load_d <= load_d,
-			load_t <= load_t,
-			op <= op,
-			sel_mux0 <= sel_mux0,
-			sel_mux1 <= sel_mux1,
-			input <= input,
-			t <= t,
-			output <= output
+			clk => clk,
+			reset => rst_d,
+			load_i => load_i,
+			load_out => load_out,
+			load_r => load_r,
+			load_s => load_s,
+			load_d => load_d,
+			load_t => load_t,
+			op => op,
+			sel_mux0 => sel_mux0,
+			sel_mux1 => sel_mux1,
+			input => input,
+			t => t,
+			output => output
 		);	
 		
 	CONTROL_0: control 
 		PORT MAP(
-			clk <= clk,
-			reset <= reset,
-			start <= start,
-			t <= t,
-			rst_d <= rst_d,
-			load_i <= load_i,
-			load_out <= load_out,
-			load_r <= load_r,
-			load_s <= load_s,
-			load_d <= load_d,
-			load_t <= load_t,
-			op <= op,
-			sel_mux0 <= sel_mux0,
-			sel_mux1 <= sel_mux1,
-			done <= done
+			clk => clk,
+			reset => reset,
+			start => start,
+			t => t,
+			rst_d => rst_d,
+			load_i => load_i,
+			load_out => load_out,
+			load_r => load_r,
+			load_s => load_s,
+			load_d => load_d,
+			load_t => load_t,
+			op => op,
+			sel_mux0 => sel_mux0,
+			sel_mux1 => sel_mux1,
+			done => done
 		);
 
 end Behavioral;
