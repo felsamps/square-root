@@ -8,12 +8,8 @@ ENTITY datapath IS
 	PORT (
 		clk, rst_datapath : IN STD_LOGIC;
 		--R Datapath
-		rst_carry_r, set_carry_r, en_carry_r : IN STD_LOGIC;
-		ls_r_op0, ls_r_op1, en_r_op0, en_r_op1 : IN STD_LOGIC;
-		
-		--D Datapath
-		rst_carry_d, set_carry_d, en_carry_d : IN STD_LOGIC;
-		ls_d_op0, ls_d_op1, en_d_op0, en_d_op1 : IN STD_LOGIC;
+		rst_carry_rd, set_carry_rd, en_carry_rd : IN STD_LOGIC;
+		ls_rd_op0, ls_rd_op1, en_rd_op0, en_rd_op1 : IN STD_LOGIC;
 		
 		--S Datapath
 		rst_carry_s, set_carry_s, en_carry_s : IN STD_LOGIC;
@@ -69,17 +65,21 @@ ARCHITECTURE Behavioral OF datapath IS
 	--T INTERNAL SIGNALS
 	SIGNAL carry_in_t, op0_t, op1_t : STD_LOGIC;
 	SIGNAL sub_t : STD_LOGIC_VECTOR(1 DOWNTO 0);
+	
+	SIGNAL const_1 : STD_LOGIC_VECTOR(n-1 DOWNTO 0);
 
 BEGIN
+
+	const_1 <= conv_std_logic_vector(1,n);
 
 	--R DATA PATH--------------------------------------------------------------------
 	OP_0_R_SR: shift_register GENERIC MAP (n) PORT MAP(
 		clk => clk,
 		reset => rst_datapath, 
-		en => en_r_op0, 
-		load_shift => ls_r_op0, 
+		en => en_rd_op0, 
+		load_shift => ls_rd_op0, 
 		sd => add_r(0), 
-		d => conv_std_logic_vector(1,n), 
+		d => const_1, 
 		sq => op0_r, 
 		q => output
 	);
@@ -87,15 +87,15 @@ BEGIN
 	OP_1_R_SR: shift_register GENERIC MAP (n) PORT MAP(
 		clk => clk,
 		reset => rst_datapath, 
-		en => en_r_op1, 
-		load_shift => ls_r_op1, 
+		en => en_rd_op1, 
+		load_shift => ls_rd_op1, 
 		sd => op1_r, 
 		d => conv_std_logic_vector(1,n), 
 		sq => op1_r, 
 		q => open
 	);
 	
-	CARRY_REG_R: one_bit_register PORT MAP( clk => clk, reset => rst_carry_r, set => set_carry_r, en => en_carry_r, d => add_r(1), q => carry_in_r);
+	CARRY_REG_R: one_bit_register PORT MAP( clk => clk, reset => rst_carry_rd, set => set_carry_rd, en => en_carry_rd, d => add_r(1), q => carry_in_r);
 	
 	add_r <= ('0'&op0_r) + ('0'&op1_r) + ('0'&carry_in_r);
 	
@@ -103,8 +103,8 @@ BEGIN
 	OP_0_D_SR: shift_register GENERIC MAP (n)	PORT MAP(
 		clk => clk,
 		reset => rst_datapath, 
-		en => en_d_op0, 
-		load_shift => ls_d_op0, 
+		en => en_rd_op0, 
+		load_shift => ls_rd_op0, 
 		sd => add_d(0), 
 		d => conv_std_logic_vector(2,n), 
 		sq => op0_d, 
@@ -114,15 +114,15 @@ BEGIN
 	OP_1_D_SR: shift_register GENERIC MAP (n)	PORT MAP(
 		clk => clk,
 		reset => rst_datapath, 
-		en => en_d_op1, 
-		load_shift => ls_d_op1, 
+		en => en_rd_op1, 
+		load_shift => ls_rd_op1, 
 		sd => op1_d, 
 		d => conv_std_logic_vector(2,n), 
 		sq => op1_d, 
 		q => open
 	);
 	
-	CARRY_REG_D: one_bit_register PORT MAP( clk => clk, reset => rst_carry_d, set => set_carry_d, en => en_carry_d, d => add_d(1), q => carry_in_d);
+	CARRY_REG_D: one_bit_register PORT MAP( clk => clk, reset => rst_carry_rd, set => set_carry_rd, en => en_carry_rd, d => add_d(1), q => carry_in_d);
 	
 	add_d <= ('0'&op0_d) + ('0'&op1_d) + ('0'&carry_in_d);
 	
